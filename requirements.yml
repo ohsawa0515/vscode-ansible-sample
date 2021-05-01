@@ -1,0 +1,7 @@
+---
+roles:
+  - datadog.datadog
+
+collections:
+  - amazon.aws
+  - google.cloud

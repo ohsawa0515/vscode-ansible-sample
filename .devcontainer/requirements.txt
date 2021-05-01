@@ -1,0 +1,12 @@
+ansible==3.2.0
+ansible-lint==5.0.7
+# for Launching EC2 instance
+boto
+# for AWS dynamic inventory
+boto3
+botocore
+# for GCP dynamic inventory
+google-auth
+requests
+# for development
+awscli

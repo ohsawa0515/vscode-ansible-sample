@@ -1,0 +1,30 @@
+{
+  "name": "Remote Container for Ansible",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "ansible",
+  "settings": {
+    "editor.tabSize": 2,
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "ansible.validate.executablePath": "/usr/local/bin/ansible-lint",
+    "yaml.schemas": {
+      "file:///home/ansible/schemas/ansible-playbook.json": [
+        "*.yml"
+      ]
+    },
+    "json.maxItemsComputed": 300000,
+  },
+  "remoteUser": "ansible",
+  "workspaceFolder": "/home/ansible/workspace",
+  "extensions": [
+    "ms-python.python",
+    "tht13.python",
+    "zbr.vscode-ansible",
+    "redhat.vscode-yaml",
+    "vscode-icons-team.vscode-icons",
+    "yzhang.markdown-all-in-one",
+    "oderwat.indent-rainbow",
+    "donjayamanne.githistory",
+    "eamodio.gitlens",
+    "waderyan.gitblame"
+  ]
+}
