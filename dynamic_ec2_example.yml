@@ -7,7 +7,26 @@
     ansible_user: ec2-user
     ansible_ssh_private_key_file: ~/.ssh/<KEY PAIR>.pem
 
+  pre_tasks:
+    - name: Gather ec2_metadata
+      amazon.aws.ec2_metadata_facts:
+
   tasks:
     - name: Print Name tag
       debug:
         msg: "{{ tags.Name }}"
+
+    - name: Print all EC2 mzetadata
+      debug:
+        msg: |-
+          {%- for key in hostvars['instance01'] if 'ansible_ec2' in key %}
+            {{ key }}:{{ hostvars['instance01'][key] }}
+          {%- endfor %}
+
+    - name: Print EC2 instance id
+      debug:
+        var: ansible_ec2_instance_id
+
+    - debug:
+        msg: "This instance is a t3a.medium"
+      when: ansible_ec2_instance_type == "t3a.medium"
