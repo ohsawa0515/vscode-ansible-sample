@@ -2,7 +2,7 @@
 
 This is a example repository for building development and execution environment of Ansible with VSCode.
 
-By building an environment for developing and executing Ansible in a container with [VSCode's Remote Container](https://code.visualstudio.com/docs/remote/containers), anyone can use it regardless of the local environment.
+By building an environment for developing and executing Ansible in a container with [VSCode Remote Container](https://code.visualstudio.com/docs/remote/containers), anyone can use it regardless of the local environment.
 
 ## Environment
 

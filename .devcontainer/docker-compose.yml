@@ -9,7 +9,7 @@ services:
     image: vscode-ansible
     environment:
       - TZ=JST-9
-      - LESSCHARSET=utf-8  # git log, less で文字化けを防ぐ
+      - LESSCHARSET=utf-8  # Prevent garbled characters. e.g. git log, less
     volumes:
       - $HOME/.ssh:/home/ansible/.ssh:ro
       - ~/.aws:/home/ansible/.aws:ro
