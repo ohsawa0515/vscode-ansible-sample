@@ -31,6 +31,11 @@ google-auth       1.30.0
 ```
 
 ```console
+$ aws --version
+aws-cli/1.19.62 Python/3.8.9 Linux/4.19.128-microsoft-standard botocore/1.20.6
+```
+
+```console
 $ gcloud --version
 Google Cloud SDK 338.0.0
 alpha 2021.04.23
