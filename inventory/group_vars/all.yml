@@ -1,0 +1,14 @@
+ec2_region: us-east-1
+ec2_key_name: example-key-name
+ec2_sg_group_id: sg-xxxxxxxx
+ec2_subnet_ids:
+  - subnet-xxxxxxxx
+  - subnet-yyyyyyyy
+ec2_termination_protection: true
+ec2_volume_type: gp3
+ec2_ebs_optimized: true
+ec2_iam_role: example-role
+ec2_instance_type: t3.medium
+ec2_volume_size: 10
+ec2_name: ansible-target-node001
+ec2_count: 1
