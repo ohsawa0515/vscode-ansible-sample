@@ -1,0 +1,24 @@
+---
+- name: Check enabled nginx
+  shell:
+    cmd: "amazon-linux-extras list | grep nginx | grep -q enabled"
+  ignore_errors: true
+  register: nginx_install_enabled
+  changed_when: no
+  check_mode: no
+
+- name: Enable to install nginx
+  command:
+    cmd: amazon-linux-extras enable nginx1
+  when: nginx_install_enabled.rc != 0
+
+- name: Install NGINX.
+  yum:
+    name: nginx
+    state: present
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    enabled: yes
+    state: restarted

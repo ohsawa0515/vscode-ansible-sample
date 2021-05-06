@@ -1,0 +1,90 @@
+- name: Launch EC2 instance
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  vars:
+    ansible_user: "ec2-user"
+    ansible_ssh_private_key_file: ~/.ssh/<KEY PAIR>.pem
+
+  pre_tasks:
+    - block: # If there are multiple subnet IDs, they will be randomly selected.
+        - name: Get random number if end number is not getten
+          set_fact:
+            subnet_index: "{{ range(0, ec2_subnet_ids | count) | random }}"
+
+        - name: Get subnet id
+          set_fact:
+            ec2_subnet_id: "{{ ec2_subnet_ids[subnet_index | int] }}"
+
+    - block:
+        - name: Gather Amazon Linux2 images
+          amazon.aws.ec2_ami_info:
+            owners: 137112412989
+            filters:
+              name: "amzn2-ami-hvm-2.0.*-x86_64-gp2"
+          register: amis
+
+        - name: Get the latest AMI ID
+          set_fact:
+            latest_ami: >
+              {{ amis.images | sort(attribute='creation_date') | last }}
+
+  tasks:
+    - name: Launch instance
+      amazon.aws.ec2:
+        region: "{{ ec2_region }}"
+        key_name: "{{ ec2_key_name }}"
+        group_id: "{{ ec2_sg_group_id }}"
+        instance_type: "{{ ec2_instance_type }}"
+        image: "{{ latest_ami.image_id }}"
+        instance_profile_name: "{{ ec2_iam_role }}"
+        wait: yes
+        wait_timeout: 500
+        volumes:
+          - device_name: /dev/sda1
+            volume_type: "{{ ec2_volume_type }}"
+            volume_size: "{{ ec2_volume_size }}"
+            delete_on_termination: true
+        vpc_subnet_id: "{{ ec2_subnet_id }}"
+        assign_public_ip: no
+        termination_protection: "{{ ec2_termination_protection }}"
+        ebs_optimized: "{{ ec2_ebs_optimized }}"
+        instance_tags:
+          Name: "{{ ec2_name }}"
+      register: ec2
+
+    - name: Add new instance to host group
+      add_host:
+        name: "{{ item.tags.Name }}"
+        ansible_ssh_host: "{{ item.private_ip }}"
+        groupname: launched
+      loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up
+      delegate_to: "{{ item.private_ip }}"
+      wait_for_connection:
+        delay: 60
+        timeout: 320
+      loop: "{{ ec2.instances }}"
+
+- name: Configure instances
+  hosts: launched
+  become: true
+  gather_facts: true
+
+  vars:
+    ansible_user: ec2-user
+    ansible_ssh_private_key_file: ~/.ssh/<KEY PAIR>.pem
+
+  pre_tasks:
+    - name: Gather ec2_metadata
+      amazon.aws.ec2_metadata_facts:
+
+  roles:
+    - nginx
+
+  tasks:
+    - name: Print EC2 instance id
+      debug:
+        var: ansible_ec2_instance_id
