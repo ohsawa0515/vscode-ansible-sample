@@ -1,0 +1,30 @@
+name: "Ansible Lint"
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Lint Ansible Playbooks
+        uses: ansible/ansible-lint-action@38e9ebdc9c3c71e66e2a3e0a09f0b6c8bc005e46 # v4.1.0
+        with:
+          targets: |
+            launch_ec2_instance_by_codebuild.yml
+            launch_ec2_instance_example.yml
+            dynamic_ec2_example.yml
+          override-deps: |
+            ansible==3.2.0
+            ansible-lint==5.0.7
