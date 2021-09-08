@@ -25,4 +25,4 @@ jobs:
           ansiblelint_version: 5.0.7
           reporter: github-pr-review # Change reporter.
           ansiblelint_flags: "-p launch_* dynamic_* roles"
-          fail_on_error: yes
+          fail_on_error: true
