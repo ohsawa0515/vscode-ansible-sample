@@ -19,12 +19,10 @@ jobs:
           python-version: 3.8
 
       - name: Lint Ansible Playbooks
-        uses: ansible/ansible-lint-action@38e9ebdc9c3c71e66e2a3e0a09f0b6c8bc005e46 # v4.1.0
+        uses: reviewdog/action-ansiblelint@8bb20b42133697620fab9651f44661a24923308a # v1.4.0
         with:
-          targets: |
-            launch_ec2_instance_by_codebuild.yml
-            launch_ec2_instance_example.yml
-            dynamic_ec2_example.yml
-          override-deps: |
-            ansible==3.2.0
-            ansible-lint==5.0.7
+          github_token: ${{ secrets.github_token }}
+          ansiblelint_version: 5.0.7
+          reporter: github-pr-review # Change reporter.
+          ansiblelint_flags: "-p launch_* dynamic_* roles"
+          fail_on_error: yes
