@@ -23,8 +23,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r .devcontainer/requirements.txt
 
-      - name: Add problem matcher
-        run: echo "::add-matcher::.github/ansible-lint.json"
+      # - name: Add problem matcher
+      #   run: echo "::add-matcher::.github/ansible-lint.json"
 
       - name: Run ansible-lint
         run: |
