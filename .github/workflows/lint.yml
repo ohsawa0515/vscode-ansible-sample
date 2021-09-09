@@ -25,4 +25,3 @@ jobs:
           ansiblelint_version: 5.0.7
           reporter: github-pr-review # Change reporter.
           ansiblelint_flags: "playbooks/*"
-          fail_on_error: true

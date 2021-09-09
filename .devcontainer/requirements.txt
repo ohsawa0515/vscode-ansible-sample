@@ -1,5 +1,6 @@
-ansible==3.2.0
-ansible-lint==5.0.7
+ansible==4.5.0
+ansible-core==2.11.4
+ansible-lint==5.1.3
 # for Launching EC2 instance
 boto
 # for AWS dynamic inventory
