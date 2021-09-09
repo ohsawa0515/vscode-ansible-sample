@@ -22,7 +22,3 @@
     name: nginx
     enabled: yes
     state: restarted
-
-- name: test
-  shell:
-    cmd: "echo aaaa"

@@ -29,10 +29,3 @@ jobs:
       - name: Run ansible-lint
         run: |
           ansible-lint --offline -p playbooks
-      # - name: Lint Ansible Playbooks
-      #   uses: reviewdog/action-ansiblelint@8bb20b42133697620fab9651f44661a24923308a # v1.4.0
-      #   with:
-      #     github_token: ${{ secrets.github_token }}
-      #     ansiblelint_version: 5.0.7
-      #     reporter: github-pr-review # Change reporter.
-      #     ansiblelint_flags: "playbooks/*"
