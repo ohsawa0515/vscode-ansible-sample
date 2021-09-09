@@ -30,10 +30,3 @@ RUN groupadd --gid $USER_GID $USERNAME && \
   chown -R $USERNAME /home/${USERNAME}/.ansible && \
   echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
   chmod 0440 /etc/sudoers.d/${USERNAME}
-
-# Download JSON Schemas for Ansible
-RUN mkdir -p /home/${USERNAME}/schemas && \
-  curl https://json.schemastore.org/ansible-playbook.json -o /home/${USERNAME}/schemas/ansible-playbook.json && \
-  curl https://json.schemastore.org/ansible-role-2.9.json -o /home/${USERNAME}/schemas/ansible-role.json && \
-  sed -i"" -e "s#https://json.schemastore.org/ansible-role-2.9#./ansible-role.json#g" /home/${USERNAME}/schemas/ansible-playbook.json && \
-  chown -R $USERNAME /home/${USERNAME}/schemas
