@@ -4,9 +4,9 @@
     cmd: "amazon-linux-extras list | grep nginx | grep -q enabled"
   ignore_errors: true
   register: nginx_install_enabled
+  changed_when: no
+  check_mode: no
 
-  # changed_when: no
-  # check_mode: no
 - name: Enable to install nginx
   command:
     cmd: amazon-linux-extras enable nginx1
@@ -22,3 +22,7 @@
     name: nginx
     enabled: yes
     state: restarted
+
+- name: test
+  shell:
+    cmd: "echo aaaa"

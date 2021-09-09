@@ -31,3 +31,7 @@
     - debug:
         msg: "This instance is a t3a.medium"
       when: ansible_ec2_instance_type == "t3a.medium"
+
+    - name: test2
+      shell:
+        cmd: "echo bbb"
