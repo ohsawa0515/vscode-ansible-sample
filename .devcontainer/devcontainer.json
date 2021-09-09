@@ -4,21 +4,36 @@
   "service": "ansible",
   "settings": {
     "editor.tabSize": 2,
-    "terminal.integrated.shell.linux": "/bin/bash",
-    "ansible.validate.executablePath": "/usr/local/bin/ansible-lint",
-    "yaml.schemas": {
-      "file:///home/ansible/schemas/ansible-playbook.json": [
-        "*.yml"
-      ]
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "/bin/bash",
+        "args": [
+          "-l"
+        ]
+      }
     },
     "json.maxItemsComputed": 300000,
+    "ansible.ansible.path": "/usr/local/bin/ansible",
+    "ansible.ansibleLint.path": "/usr/local/bin/ansible-lint",
+    "ansible.python.interpreterPath": "/usr/local/bin/python",
+    "files.associations": {
+      "**/playbooks/*.{yml,yaml}": "ansible",
+      "**/roles/*.{yml,yaml}": "ansible",
+      "**/hostvars/*.{yml,yaml}": "ansible",
+      "**/group_vars/*.{yml,yaml}": "ansible",
+      "**/tasks/*.{yml,yaml}": "ansible",
+      "**/defaults/*.{yml,yaml}": "ansible",
+      "**/vars/*.{yml,yaml}": "ansible",
+      "**/meta/*.{yml,yaml}": "ansible",
+      "**/handlers/*.{yml,yaml}": "ansible"
+    }
   },
   "remoteUser": "ansible",
   "workspaceFolder": "/home/ansible/workspace",
   "extensions": [
     "ms-python.python",
     "tht13.python",
-    "zbr.vscode-ansible",
+    "redhat.ansible",
     "redhat.vscode-yaml",
     "vscode-icons-team.vscode-icons",
     "yzhang.markdown-all-in-one",
