@@ -7,18 +7,22 @@ services:
       args:
         USERNAME: ansible
     image: vscode-ansible
+    init: true
     environment:
       - TZ=JST-9
       - LESSCHARSET=utf-8  # Prevent garbled characters. e.g. git log, less
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # for docker in docker(dind)
       - $HOME/.ssh:/home/ansible/.ssh:ro
       - ~/.aws:/home/ansible/.aws:ro
       - ..:/home/ansible/workspace:cached
-    command: >
-      /bin/sh -c "export COLLECTIONS_PATHS=/home/ansible/.ansible/collections &&
-        export ANSIBLE_ROLES_PATH=/home/ansible/.ansible/roles &&
-        cd /home/ansible/workspace &&
-        ansible-galaxy role install -r ./requirements.yml &&
-        ansible-galaxy collection install -r ./requirements.yml &&
-        chown ansible:ansible -R /home/ansible/.ansible/ &&
-        while sleep 1000; do :; done"
+    entrypoint: /usr/local/bin/entrypoint.sh
+    command: sleep infinity
+    #command: >
+    #  /bin/sh -c "export COLLECTIONS_PATHS=/home/ansible/.ansible/collections &&
+    #    export ANSIBLE_ROLES_PATH=/home/ansible/.ansible/roles &&
+    #    cd /home/ansible/workspace &&
+    #    ansible-galaxy role install -r ./requirements.yml &&
+    #    ansible-galaxy collection install -r ./requirements.yml &&
+    #    chown ansible:ansible -R /home/ansible/.ansible/ &&
+    #    while sleep 1000; do :; done"

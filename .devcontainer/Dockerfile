@@ -19,6 +19,12 @@ RUN apt-get install -y --no-install-recommends apt-transport-https ca-certificat
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
   apt-get update -y && apt-get install -y google-cloud-sdk
 
+# for docker in docker(dind)
+RUN sudo apt-get -y install --no-install-recommends lsb-release && \
+  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+  apt-get update && apt-get -y install --no-install-recommends docker-ce docker-ce-cli containerd.io
+
 ARG USERNAME=ansible
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -30,3 +36,9 @@ RUN groupadd --gid $USER_GID $USERNAME && \
   chown -R $USERNAME /home/${USERNAME}/.ansible && \
   echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
   chmod 0440 /etc/sudoers.d/${USERNAME}
+
+ADD entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh && \
+  chown ansible:root /usr/local/bin/entrypoint.sh
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
+CMD [ "sleep", "infinity" ]
