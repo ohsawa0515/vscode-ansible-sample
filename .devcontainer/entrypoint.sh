@@ -12,5 +12,7 @@ ansible-galaxy role install -r ${WORK_DIR}/requirements.yml
 ansible-galaxy collection install -r ${WORK_DIR}/requirements.yml
 chown ${USERNAME}:${USERNAME} -R ${HOME_DIR}/.ansible/
 
+chown -h root:${USERNAME} /var/run/docker.sock
+
 set +e
 exec "$@"
